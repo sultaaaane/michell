@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:49:02 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/05/30 14:12:02 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:58:52 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,18 @@ int get_word(char *line, t_element *element, enum e_state state);
 int is_special(char c);
 int tokenize(char *line, t_element *element, int i,enum e_state *state);
 t_element *lexing(char *line);
+int get_redirect(t_element *element, char *line, int i ,enum e_state *state);
+void get_quote(t_element *element,char *line,enum e_state *state);
+int get_word(char *line, t_element *element, enum e_state state);
+
+
+
+
+
+
+
+
+
 
 
 

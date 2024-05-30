@@ -3,6 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 SRC =	lexer/lexer.c \
 		lexer/main.c  \
+		lexer/element_lst.c \
 
 
 OBJ = $(SRC:.c=.o)

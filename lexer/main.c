@@ -6,29 +6,30 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:49:36 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/05/29 18:51:21 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:49:13 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lexer.h"
 
 
-int read_line(char *line)
+
+int read_line(char **line)
 {
-	line = readline("Mischell :?>");
-	if (!line  || strcmp(line, "exit") == 0)
+	*line = readline("Mischell :?>");
+	if (!*line  || ft_strcmp(*line, "exit") == 0) //TODO
 	{
 		printf("exit\n");
-		free(line);
+		free(*line);
 		exit(1);
 	}
-	if (ft_strlen(line) == 0 || ft_is_whitespace(line))
+	if (ft_strlen(*line) > 0)
+		add_history(*line);
+	if (ft_strlen(*line) == 0 || ft_is_whitespace(*line))
 	{
-		free(line);
+		free(*line);
 		return (1);
 	}
-	if (ft_strlen(line) > 0)
-		add_history(line);
 	return (0);
 }
 
@@ -52,10 +53,9 @@ int main()
 	while (69)
 	{
 		signal(SIGINT, sig_handler);
-		if (read_line(line))
+		if (read_line(&line))
 			continue;
 		element = lexing(line);
-		printf("proceed to parsing\n");
 		free(line);
 	}	
 }

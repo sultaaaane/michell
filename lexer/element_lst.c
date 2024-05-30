@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:08:50 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/05/29 21:36:38 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:19:34 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,37 @@ void	print_lst(t_element *lst)
 	tmp = lst;
 	while (tmp)
 	{
-		printf("line : %s\n", tmp->line);
-		printf("type : %d\n", tmp->type);
-		printf("state : %d\n", tmp->state);
+		printf("line : %s  ,", tmp->line);
+		if (tmp->state == IN_QUOTE)
+			printf(" state : IN_QUOTE , ");
+		else if (tmp->state == IN_DQUOTE)
+			printf(" state : IN_DQUOTE , ");
+		else
+			printf(" state : GENERAL , ");
+		if (tmp->type == WORD)
+			printf(" type : WORD\n");
+		else if (tmp->type == SQUOTE)
+			printf(" type : SQUOTE\n");
+		else if (tmp->type == DQUOTE)
+			printf(" type : DQUOTE\n");
+		else if (tmp->type == PIPE)
+			printf(" type : PIPE\n");
+		else if (tmp->type == WHITESPACE)
+			printf(" type : WHITESPACE\n");
+		else if (tmp->type == OUTPUT)
+			printf(" type : OUTPUT\n");
+		else if (tmp->type == HERE_DOC)
+			printf(" type : HERE_DOC\n");
+		else if (tmp->type == APPEND)
+			printf(" type : APPEND\n");
+		else if (tmp->type == REDIR_IN)
+			printf(" type : REDIR_IN\n");
+		else if (tmp->type == REDIR_OUT)
+			printf(" type : REDIR_OUT\n");
+		else if (tmp->type == ENV)
+			printf(" type : ENV\n");
+		else if (tmp->type == NEW_LINE)
+			printf(" type : NEW_LINE\n");
 		tmp = tmp->next;
 	}
 }

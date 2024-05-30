@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 16:06:19 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/05/29 21:25:58 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:23:25 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void				ft_free2d(char **str);
 int					ft_is_whitespace(char *str);
 char				*ft_strndup(const char *s, int n);
 int					ft_is_space(char c);
+int					ft_strcmp(const char *s1, const char *s2);
 typedef struct s_list
 {
 	void			*content;

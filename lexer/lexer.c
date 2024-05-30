@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:39:01 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/05/30 14:13:38 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:23:40 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int get_word(char *line, t_element *element, enum e_state state)
 	return (i);
 }
 
-int get_quote(t_element *element,char *line,enum e_state *state)
+void get_quote(t_element *element,char *line,enum e_state *state)
 {
 	enum e_state n_state;
 	enum e_type type;
@@ -48,8 +48,8 @@ int get_quote(t_element *element,char *line,enum e_state *state)
 	}
 	if (*state == GENERAL)
 	{
-		*state = n_state;
 		add_element(&element, new_element(line, 1, type, *state));
+		*state = n_state;
 	}
 	else if (*state == n_state)
 	{
@@ -60,7 +60,7 @@ int get_quote(t_element *element,char *line,enum e_state *state)
 		add_element(&element, new_element(line, 1, type, *state));
 }
 
-int get_redirection(t_element *element, char *line, int i ,enum e_state *state)
+int get_redirect(t_element *element, char *line, int i ,enum e_state *state)
 {
 	int j;
 
@@ -70,14 +70,14 @@ int get_redirection(t_element *element, char *line, int i ,enum e_state *state)
 		if (line[i + 1] == '<')
 			add_element(&element, new_element(line + i++, 2, HERE_DOC, *state));
 		else
-			add_element(&element, new_element(line, 1, REDIR_IN, *state));
+			add_element(&element, new_element(line + i, 1, REDIR_IN, *state));
 		i++;
 	}else if (line[i] == '>')
 	{
 		if (line[i + 1] == '>')
 			add_element(&element, new_element(line + i++, 2, APPEND, *state));
 		else
-			add_element(&element, new_element(line, 1, REDIR_OUT, *state));
+			add_element(&element, new_element(line + i, 1, REDIR_OUT, *state));
 		i++;
 	}
 	return (i - j);
@@ -86,27 +86,31 @@ int get_redirection(t_element *element, char *line, int i ,enum e_state *state)
 int tokenize(char *line, t_element *element, int i,enum e_state *state)
 {
 	if (!is_special(line[i]))
-		i += get_word(line, element , *state);
+		i += get_word(line + i, element , *state);
 	else if (line[i] == '|')
-	{
-		add_element(&element, new_element(line, i, PIPE, *state));
-		i++;
-	}
+		add_element(&element, new_element(line + i++, 1, PIPE, *state));
 	else if (ft_is_space(line[i]))
-	{
-		add_element(&element, new_element(line, i, WHITESPACE, *state));
-		i++;
-	}
+		add_element(&element, new_element(line + i++, 1, WHITESPACE, *state));
 	else if (line[i] == '\n')
-	{
-		add_element(&element, new_element(line, i, NEW_LINE, *state));
-		i++;
-	}
+		add_element(&element, new_element(line + i++, 1, NEW_LINE, *state));
 	else if (line[i] == '\'' || line[i] == '\"')
 		get_quote(element, line + i++, state);
-	else if (line[i] == '<' || line[i ] == '<')
-		i += get_redirect(element, line + i, state);
-		
+	else if (line[i] == '<' || line[i ] == '>')
+		i += get_redirect(element, line, i, state);
+	else if (line[i] == '$')
+	{
+		add_element(&element, new_element(line, i, ENV, *state));
+		i++;
+	}
+	return (i);
+}
+
+t_element	*init_elem(t_element *elem)
+{
+	elem = ft_calloc(1, sizeof(t_element));
+	if (!elem)
+		return (NULL);
+	return (elem);
 }
 
 t_element *lexing(char *line)
@@ -118,8 +122,9 @@ t_element *lexing(char *line)
 	i = 0;
 	state = GENERAL;
 	element = NULL;
+	element = init_elem(element);
 	while (line[i])
-	{
-		
-	}
+		i = tokenize(line, element, i, &state);
+	print_lst(element);
+	return (element);
 }
