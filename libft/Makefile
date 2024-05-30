@@ -60,6 +60,7 @@ SRC	=		 ft_strlen.c \
 			 ft_lstmap_bonus.c \
 			 get_next_line.c \
 			 ft_free2d.c \
+			 ft_is_whitespace.c \
 
 BONUS = 	 ft_lstadd_back_bonus.c \
 			 ft_lstadd_front_bonus.c \

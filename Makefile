@@ -1,8 +1,8 @@
-NAME = pipex
-BNAME = checker
+NAME = Minishell
 CC = cc
-
-SRC = 	
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+SRC =	lexer/lexer.c \
+		lexer/main.c  \
 
 
 OBJ = $(SRC:.c=.o)
@@ -11,17 +11,14 @@ all: $(NAME)
 
 $(NAME):$(OBJ)
 	@make -C libft
-	@make -C ft_printf
-	$(CC) $(SRC) -Wall -Wextra -Werror -fsanitize=address -g3 ./ft_printf/libftprintf.a ./libft/libft.a -o $(NAME)
+	$(CC) $(SRC) $(CFLAGS) -lreadline ./libft/libft.a -o $(NAME)
 
 
 clean:
 	rm -rf $(OBJ)
 	@make clean -C libft
-	@make clean -C ft_printf
 fclean: clean
 	rm -rf $(NAME)
 	@make fclean -C libft
-	@make fclean -C ft_printf
 re: fclean all
 .SECONDARY: $(OBJ)

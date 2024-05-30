@@ -6,47 +6,72 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:49:02 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/05/20 09:50:29 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/05/29 21:50:40 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-# include "ft_printf/ft_printf.h"
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <limits.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <signal.h>
 
-typedef struct s_pipix
+typedef enum e_type
 {
-	char	**envp;
-	int		fd[2];
-	int		fd_in;
-	int		fd_out;
-	char	*file_in;
-	char	*file_out;
-	int		ac;
-	int		pid[2];
-	char	**path;
-	int		num_proc;
-}			t_pipix;
+	WORD,
+	SQUOTE,
+	DQUOTE,
+	PIPE,
+	WHITESPACE,
+	INPUT,
+	OUTPUT,
+	HERE_DOC,
+	APPEND,
+	REDIR_IN,
+	REDIR_OUT,
+	ENV,
+	NEW_LINE,
+} t_type;
 
-void		parse(int ac, char **av);
-void		pipe_handle(t_pipix *pipix, char *cmd, char **args, int i);
-void		first_exec(t_pipix *pipix, char *cmd, char **args);
-void		execute(t_pipix *pipix, char *cmd, char **args, char **envp);
-void		exec_cmd(char **cmd, char **args, char **envp);
-int			check_outfile_access(char *file);
-int			check_infile_access(char *file);
-int			check_access(char *cmd);
-char		**get_args(char *cmd);
-char		*get_cmd(char **path, char *cmd);
-char		**get_path(char **envp);
-void		pipe_handle_helper(t_pipix *pipix, int i, char *cmd, char **args);
-int			cmd_check(char *cmd);
-char		*cmd_get_helper(char **test, char *tmp, char **path);
+typedef enum e_state
+{
+	IN_DQUOTE,
+	IN_QUOTE,
+	GENERAL,
+}t_state;
+
+typedef struct s_lexer
+{
+	char	*input;
+	int		size;
+	int		index;
+}t_lexer;
+typedef struct s_element
+{
+	char *line;
+	t_state state;
+	t_type type;
+	struct s_element *next;
+	struct s_element *prev;
+}t_element;
+
+void	print_lst(t_element *lst);
+void	free_lst(t_element *lst);
+void	add_element(t_element **lst, t_element *element);
+t_element	*new_element(char *line, int i,enum e_type type, enum e_state state);
+int get_word(char *line, t_element *element, enum e_state state);
+int is_special(char c);
+int tokenize(char *line, t_element *element, int i,enum e_state *state);
+t_element *lexing(char *line);
+
+
+
+
 #endif

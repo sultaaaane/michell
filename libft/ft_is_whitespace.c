@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_is_whitespace.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/30 18:33:57 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/03/05 00:54:58 by mbentahi         ###   ########.fr       */
+/*   Created: 2024/05/22 14:21:06 by mbentahi          #+#    #+#             */
+/*   Updated: 2024/05/29 21:25:31 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "libft.h"
 
-# include "../libft/libft.h"
-# include <stdarg.h>
-# include <stdio.h>
-# include <unistd.h>
+int ft_is_whitespace(char *str)
+{
+	int	i;
 
-// size_t	ft_strlen(const char *str);
-int	ft_putstr(char *s);
-int	ft_printf(const char *str, ...);
-int	ft_putnbr(int n);
-int	ft_putchar(char c);
-int	ft_putnbr_base(int nbr, char c);
-int	ft_printadd(void *s);
-int	ft_putlong(unsigned int nb);
+	i = 0;
+	while (str[i])
+	{
+		if ((str[i] >= 9 && str[i] <= 13))
+			i++;
+		else
+			return (1);
+	}
+	return (0);
+}
 
-#endif
+int ft_is_space(char c)
+{
+	return (c == ' ' || (c >= 9 && c <= 13));
+}
