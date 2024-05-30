@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:49:02 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/05/29 21:50:40 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:12:02 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef enum e_type
 	DQUOTE,
 	PIPE,
 	WHITESPACE,
-	INPUT,
 	OUTPUT,
 	HERE_DOC,
 	APPEND,
