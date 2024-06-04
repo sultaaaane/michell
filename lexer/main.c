@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:49:36 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/05/30 15:49:13 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:23:49 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ int main()
 		if (read_line(&line))
 			continue;
 		element = lexing(line);
+		if (check_syntax(element))
+		{
+			free_lst(element);
+			continue;
+		}
 		free(line);
 	}	
 }

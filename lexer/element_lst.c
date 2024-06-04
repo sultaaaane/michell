@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:08:50 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/05/30 18:19:34 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:41:33 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	print_lst(t_element *lst)
 	while (tmp)
 	{
 		printf("line : %s  ,", tmp->line);
-		if (tmp->state == IN_QUOTE)
-			printf(" state : IN_QUOTE , ");
+		if (tmp->state == IN_SQUOTE)
+			printf(" state : IN_SQUOTE , ");
 		else if (tmp->state == IN_DQUOTE)
 			printf(" state : IN_DQUOTE , ");
 		else

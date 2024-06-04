@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 SRC =	lexer/lexer.c \
 		lexer/main.c  \
 		lexer/element_lst.c \
-
+		syntax_error/syntax_error.c \
 
 OBJ = $(SRC:.c=.o)
 
