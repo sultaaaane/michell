@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:23:43 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/03 17:49:44 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:04:55 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void print_syntax_error(char *line)
 {
 	printf("syntax error near unexpected token `");
-	printf("%s\n",line);
+	printf("%s`\n",line);
 }
 
 t_element *skip_spaces(t_element *element,int dir)
@@ -46,8 +46,8 @@ int check_pipe(t_element *element)
 	t_element *next;
 	t_element *prev;
 
-	next = skip_spaces(element, 1);
-	prev = skip_spaces(element, -1);
+	next = skip_spaces(element->next, 1);
+	prev = skip_spaces(element->prev, -1);
 	if (!prev || !next || is_redir(prev->type))
 	{
 		print_syntax_error("|");
@@ -61,7 +61,7 @@ int check_redir(t_element *element)
 	printf("check_redir\n");
 	t_element *next;
 
-	next = skip_spaces(element, 1);
+	next = skip_spaces(element->next, 1);
 	if (!next)
 	{
 		print_syntax_error("'newline'");
