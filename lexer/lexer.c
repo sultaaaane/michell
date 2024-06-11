@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:39:01 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/03 15:18:03 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/11 03:54:20 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,20 @@ int get_redirect(t_element **element, char *line, int i ,enum e_state *state)
 	return (i - j);
 }
 
+void	check_prev_node(t_element *current)
+{
+	t_element *tmp = current;
+	if (current->prev)
+	{
+		while(current && current->type != WHITESPACE && current->type != HERE_DOC)
+			current = current->prev;
+		if(current)
+		current = skip_spaces(current, -1);
+		if (current && current->type == HERE_DOC)
+			tmp->type = WORD;
+	}
+}
+
 int get_env(char *line, t_element **element, enum e_state state)
 {
 	enum e_type type1;
@@ -126,7 +140,7 @@ int tokenize(char *line, t_element **element, int i,enum e_state *state)
 	else if (line[i] == '<' || line[i ] == '>')
 		i += get_redirect(element, line, i, state);
 	else if (line[i] == '$')
-	i += get_env(line + i, element, *state);
+		i += get_env(line + i, element, *state);
 	return (i);
 }
 
@@ -138,7 +152,76 @@ t_element	*init_elem(t_element *elem)
 	return (elem);
 }
 
-t_element *lexing(char *line)
+void	check(t_element *current)
+{
+	while(current)
+	{
+		if(current->type == ENV)
+		{	
+			check_prev_node(current);
+		}
+		current = current->next;
+	}
+}
+
+void expand_helper(t_element *current, t_env **envlist, t_element **new)
+{
+	t_env *env = *envlist;
+	char **arr;
+	int i = 0;
+
+	while (env)
+	{
+		if (ft_strcmp(current->line + 1, env->key) == 0)
+		{
+			if(env->value)
+			{
+				if(current->state == 0)
+				{
+					arr = ft_split(env->value, ' ');
+					if(arr)
+					{
+						while (arr[i])
+						{
+							add_element(new, new_element(arr[i], ft_strlen(arr[i]), current->type, current->state));
+							i++;
+						}
+						ft_free2d(arr);
+					}
+				}
+				else
+					add_element(new, new_element(env->value, ft_strlen(env->value), current->type, current->state));
+			}
+			else
+				add_element(new, new_element("", 0, current->type, current->state));
+			break;
+		}
+		env = env->next;
+	}
+}
+
+t_element *expand(t_element *current, t_env **envlist)
+{
+	t_env *tmp;
+	t_env *head;
+	t_element *new = NULL;
+
+	head = *envlist;
+	while (current)
+	{
+		if (current->type == ENV)
+		{
+			tmp = head;
+			expand_helper(current, envlist, &new);
+		}
+		else
+			add_element(&new, new_element(current->line, ft_strlen(current->line), current->type, current->state));
+		current = current->next;
+	}
+	return (new);
+}
+
+t_element *lexing(char *line, t_env **envlist)
 {
 	t_element *element;
 	enum e_state state;
@@ -147,9 +230,10 @@ t_element *lexing(char *line)
 	i = 0;
 	state = GENERAL;
 	element = NULL;
-	// element = init_elem(element);
 	while (line[i])
 		i = tokenize(line, &element, i, &state);
-	print_lst(element);
+	check(element);
+	element = expand(element, envlist);
+	check_concate(&element);
 	return (element);
 }

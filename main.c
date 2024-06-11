@@ -6,18 +6,16 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:49:36 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/03 17:23:49 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/11 03:15:14 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lexer.h"
-
-
+#include "includes/lexer.h"
 
 int read_line(char **line)
 {
 	*line = readline("Mischell :?>");
-	if (!*line  || ft_strcmp(*line, "exit") == 0) //TODO
+	if (!*line  || ft_strcmp(*line, "exit") == 0)
 	{
 		printf("exit\n");
 		free(*line);
@@ -44,22 +42,33 @@ void sig_handler(int signum)
 	}
 }
 
-int main()
+
+
+
+int main(int ac, char **av, char **envp)
 {
 	char *line;
-	t_element *element;
+	t_all all;
+	t_env *envlist;
+
+	(void)ac;
+	(void)av;
+	envlist = NULL;
+	all = (t_all){0};
+	all.env = envp;
 	line = NULL;
 	signal(SIGQUIT, SIG_IGN);
+	envlist = build_env_list(envp);
 	while (69)
 	{
 		signal(SIGINT, sig_handler);
 		if (read_line(&line))
 			continue;
-		element = lexing(line);
-		if (check_syntax(element))
+		all.element = lexing(line, &envlist);
+		if (!check_syntax(all.element))
 		{
-			free_lst(element);
-			continue;
+			print_lst(all.element);
+			printf("proceed to execution\n");
 		}
 		free(line);
 	}	

@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:49:02 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/03 17:48:32 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/11 03:27:35 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef enum e_type
 	SQUOTE,
 	DQUOTE,
 	PIPE,
-	WHITESPACE,
+	WHITESPACE = ' ',
 	OUTPUT,
 	HERE_DOC,
 	APPEND,
@@ -42,9 +42,9 @@ typedef enum e_type
 
 typedef enum e_state
 {
-	IN_DQUOTE,
-	IN_SQUOTE,
 	GENERAL,
+	IN_SQUOTE,
+	IN_DQUOTE,
 }t_state;
 
 typedef struct s_lexer
@@ -64,11 +64,31 @@ typedef struct s_element
 
 typedef struct s_parse
 {
-	int fd_in;
-	int fd_out;
+	int *fd_in;
+	int *fd_out;
+	char *cmd;
 	char **full_command;
-	
+	struct s_parse *next;
+	struct s_parse *prev;
 }t_parse;
+
+typedef struct s_env
+{
+    char *key;
+    char *value;
+    struct s_env *next;
+}               t_env;
+
+typedef struct s_all
+{
+	t_element *element;
+	t_parse *parse;
+	t_list *lst;
+	char **env;
+	int in;
+	int out;
+}t_all;
+
 
 void	print_lst(t_element *lst);
 void	free_lst(t_element *lst);
@@ -77,7 +97,7 @@ t_element	*new_element(char *line, int i,enum e_type type, enum e_state state);
 int get_word(char *line, t_element **element, enum e_state state);
 int is_special(char c);
 int tokenize(char *line, t_element **element, int i,enum e_state *state);
-t_element *lexing(char *line);
+t_element *lexing(char *line, t_env **envlist);
 int get_redirect(t_element **element, char *line, int i ,enum e_state *state);
 void get_quote(t_element **element,char *line,enum e_state *state);
 int get_word(char *line, t_element **element, enum e_state state);
@@ -89,9 +109,16 @@ int check_redir(t_element *element);
 int check_pipe(t_element *element);
 int is_redir(enum e_type type);
 void print_syntax_error(char *line);
-
-
-
+void print_parse(t_parse *lst);
+void	free_parse(t_parse *lst);
+t_parse *add_parse(t_parse **lst, t_parse *parse);
+t_parse *new_parse(char **command,int fd_in, int fd_out);
+int parse(t_element *element);
+void	check_concate(t_element **element);
+int count_nodes(t_element *curr);
+t_env *create_env_node(char *key, char *value);
+t_env *build_env_list(char **envp);
+void add_element_between(t_element **lst, t_element *element, t_element *prev, t_element *next);
 
 
 #endif

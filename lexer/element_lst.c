@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:08:50 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/05/31 15:41:33 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/11 03:40:53 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,36 @@ void	add_element(t_element **lst, t_element *element)
 	element->prev = tmp;
 }
 
+void add_element_between(t_element **lst, t_element *element, t_element *prev, t_element *next)
+{
+    printf("add_element_between\n");
+    printf("element : %s\n", element->line);
+    
+    // If the list is initially empty
+    if (*lst == NULL)
+    {
+        element->next = NULL;
+        element->prev = NULL;
+        *lst = element;
+    }
+    // If adding at the beginning of a non-empty list
+    else if (!prev)
+    {
+        element->next = *lst;
+        (*lst)->prev = element;
+        element->prev = NULL;
+        *lst = element;
+    }
+    // If adding in between or at the end
+    else
+    {
+        prev->next = element;
+        element->prev = prev;
+        element->next = next;
+        if (next)
+            next->prev = element;
+    }
+}
 
 void	free_lst(t_element *lst)
 {

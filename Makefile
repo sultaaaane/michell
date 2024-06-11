@@ -1,10 +1,12 @@
-NAME = Minishell
+NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 SRC =	lexer/lexer.c \
-		lexer/main.c  \
+		main.c  \
 		lexer/element_lst.c \
 		syntax_error/syntax_error.c \
+		parsing/parse.c \
+		parsing/env.c \
 
 OBJ = $(SRC:.c=.o)
 
