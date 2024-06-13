@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:49:36 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/11 03:15:14 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/12 16:44:13 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ int main(int ac, char **av, char **envp)
 			printf("proceed to execution\n");
 		}
 		free(line);
+		free_lst(all.element);
 	}	
 }

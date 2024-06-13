@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:08:54 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/11 03:13:18 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/14 00:51:32 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ int count_nodes(t_element *curr)
 		curr = curr->next;
 	}
 	return (count);
+}
+
+t_element *concatinate(t_element *element)
+{
+	
 }
 
 void	check_concate(t_element **element)
