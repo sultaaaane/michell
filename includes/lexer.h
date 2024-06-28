@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:49:02 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/11 03:27:35 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:52:47 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_element	*new_element(char *line, int i,enum e_type type, enum e_state state);
 int get_word(char *line, t_element **element, enum e_state state);
 int is_special(char c);
 int tokenize(char *line, t_element **element, int i,enum e_state *state);
-t_element *lexing(char *line, t_env **envlist);
+t_element *lexing(char *line);
 int get_redirect(t_element **element, char *line, int i ,enum e_state *state);
 void get_quote(t_element **element,char *line,enum e_state *state);
 int get_word(char *line, t_element **element, enum e_state state);
@@ -119,6 +119,13 @@ int count_nodes(t_element *curr);
 t_env *create_env_node(char *key, char *value);
 t_env *build_env_list(char **envp);
 void add_element_between(t_element **lst, t_element *element, t_element *prev, t_element *next);
+t_element *without_quotes(t_element *element);
+t_element *expand(t_element *current, t_env **envlist);
+void	check(t_element *current);
+t_element *join_inquotes(t_element *element);
+
+
+
 
 
 #endif

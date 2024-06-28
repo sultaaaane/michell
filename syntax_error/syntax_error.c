@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:23:43 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/10 23:01:40 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/27 22:13:31 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int check_pipe(t_element *element)
 
 	next = skip_spaces(element->next, 1);
 	prev = skip_spaces(element->prev, -1);
-	if (next->type == PIPE || prev->type == PIPE)
+	if ((next && prev) && (next->type == PIPE || prev->type == PIPE))
 	{
 		print_syntax_error("||");
 		return (1);

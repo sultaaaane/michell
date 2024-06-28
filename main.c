@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:49:36 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/12 16:44:13 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/27 22:19:40 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ int main(int ac, char **av, char **envp)
 {
 	char *line;
 	t_all all;
+	t_element *tmp;
 	t_env *envlist;
 
 	(void)ac;
 	(void)av;
+	tmp = NULL;
 	envlist = NULL;
 	all = (t_all){0};
 	all.env = envp;
@@ -64,13 +66,26 @@ int main(int ac, char **av, char **envp)
 		signal(SIGINT, sig_handler);
 		if (read_line(&line))
 			continue;
-		all.element = lexing(line, &envlist);
+		all.element = lexing(line);
 		if (!check_syntax(all.element))
 		{
+			check(all.element);
+			all.element = expand(all.element, &envlist);
+			printf("before join inquotes\n");
 			print_lst(all.element);
+			all.element = join_inquotes(all.element);
+			printf("after join inquotes\n");
+			print_lst(all.element);
+			tmp = without_quotes(all.element);
+			printf("after without quotes\n");
+			print_lst(tmp);
+			check_concate(&tmp);
+			printf("proceed to parsing\n");
+			print_lst(tmp);
 			printf("proceed to execution\n");
 		}
 		free(line);
 		free_lst(all.element);
-	}	
+	}
+	ft_free2d(envp);
 }

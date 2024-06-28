@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:39:01 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/12 16:43:10 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:02:41 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ t_element *expand(t_element *current, t_env **envlist)
 	return (new);
 }
 
-t_element *lexing(char *line, t_env **envlist)
+t_element *lexing(char *line)
 {
 	t_element *element;
 	enum e_state state;
@@ -232,8 +232,6 @@ t_element *lexing(char *line, t_env **envlist)
 	element = NULL;
 	while (line[i])
 		i = tokenize(line, &element, i, &state);
-	check(element);
-	element = expand(element, envlist);
-	check_concate(&element);
+	printf("before expand\n");
 	return (element);
 }
