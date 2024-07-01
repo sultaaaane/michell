@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:08:50 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/27 16:09:20 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/30 19:43:21 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,10 @@ void	print_lst(t_element *lst)
 			printf(" type : ENV\n");
 		else if (tmp->type == NEW_LINE)
 			printf(" type : NEW_LINE\n");
+		else if (tmp->type == EX_STATUS)
+			printf(" type : EX_STATUS\n");
+		else if (tmp->type == CONCATE)
+			printf(" type : CONCATE\n");
 		tmp = tmp->next;
 	}
 }

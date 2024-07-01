@@ -7,6 +7,7 @@ SRC =	lexer/lexer.c \
 		syntax_error/syntax_error.c \
 		parsing/parse.c \
 		parsing/env.c \
+		parsing/ft_strjoin_concate.c \
 
 OBJ = $(SRC:.c=.o)
 

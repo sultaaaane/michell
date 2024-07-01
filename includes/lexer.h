@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:49:02 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/27 17:52:47 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/06/30 19:41:52 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef enum e_type
 	ENV,
 	NEW_LINE,
 	EX_STATUS,
+	CONCATE,
 } t_type;
 
 typedef enum e_state
@@ -114,7 +115,7 @@ void	free_parse(t_parse *lst);
 t_parse *add_parse(t_parse **lst, t_parse *parse);
 t_parse *new_parse(char **command,int fd_in, int fd_out);
 int parse(t_element *element);
-void	check_concate(t_element **element);
+t_element	*check_concate(t_element **element);
 int count_nodes(t_element *curr);
 t_env *create_env_node(char *key, char *value);
 t_env *build_env_list(char **envp);
@@ -123,7 +124,7 @@ t_element *without_quotes(t_element *element);
 t_element *expand(t_element *current, t_env **envlist);
 void	check(t_element *current);
 t_element *join_inquotes(t_element *element);
-
+char	*ft_strjoin_concate(char *s1, char *s2);
 
 
 
