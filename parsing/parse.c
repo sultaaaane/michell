@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:08:54 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/30 23:47:37 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/01 16:10:33 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,20 @@ int count_nodes(t_element *curr)
 	return (count);
 }
 
-char *concatinate(t_element *element)
+char *concatinate(t_element **element)
 {
 	char *concated;
 	char *tmp;
-	t_element *curr;
 
 	concated = NULL;
-	curr = element;
-	while (curr && curr->type != WHITESPACE && curr->type != PIPE && curr->type != REDIR_IN 
-			&& curr->type != REDIR_OUT && curr->type != APPEND
-			&& curr->type != HERE_DOC)
+	while (*element && (*element)->type != WHITESPACE && (*element)->type != PIPE && (*element)->type != REDIR_IN 
+			&& (*element)->type != REDIR_OUT && (*element)->type != APPEND
+			&& (*element)->type != HERE_DOC)
 	{
-		tmp = ft_strjoin_concate(concated, curr->line);
+		tmp = ft_strjoin_concate(concated, (*element)->line);
 		free(concated);
 		concated = tmp;
-		curr = curr->next;
+		*element = (*element)->next;
 	}
 	return (concated);
 }
@@ -63,7 +61,6 @@ t_element *join_inquotes(t_element *element)
 			curr = curr->next;
 			while (curr && curr->state != GENERAL)
 			{
-				printf("enter\n");
 				line = ft_strjoin(line, curr->line);
 				curr = curr->next;
 			}
@@ -115,22 +112,20 @@ t_element	*check_concate(t_element **element)
 			&& curr->type != REDIR_OUT && curr->type != APPEND
 			&& curr->type != HERE_DOC && count_nodes(curr) > 1)
 		{
-			printf("CONCAT\n");
-			concated = concatinate(curr);
-			printf("line concate : %s\n", curr->line);
+			// printf("CONCAT\n");
+			concated = concatinate(&curr);
 			if (concated)
 			{
-				add_element(&new, new_element(concated, ft_strlen(concated), CONCATE, curr->state));
+				add_element(&new, new_element(concated, ft_strlen(concated), CONCATE, GENERAL));
 				free(concated);
 			}
-			curr = curr->next;
 		}
 		else if(curr && curr->type == WHITESPACE)
 			curr = curr->next;
 		else
 		{
-			printf("NOT CONCAT\n");
-			printf("line : %s  \n", curr->line);
+			// printf("NOT CONCAT\n");
+			// printf("line : %s  \n", curr->line);
 			add_element(&new, new_element(curr->line, ft_strlen(curr->line), curr->type, curr->state));
 			curr = curr->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:39:01 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/27 16:02:41 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/01 17:07:56 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int get_env(char *line, t_element **element, enum e_state state)
 		add_element(element, new_element(line, ++i, type2, state));
 	else
 	{
-		while (line[i] && !is_special(line[i]))
+		while (line[i] && line[i] != ' ' && (ft_isalnum(line[i]) || line[i] == '_'))
 			i++;
 		add_element(element, new_element(line, i, type1, state));
 	}
@@ -140,7 +140,7 @@ int tokenize(char *line, t_element **element, int i,enum e_state *state)
 	else if (line[i] == '<' || line[i ] == '>')
 		i += get_redirect(element, line, i, state);
 	else if (line[i] == '$')
-		i += get_env(line + i, element, *state);
+		i += get_env(line + i , element, *state);
 	return (i);
 }
 
@@ -209,7 +209,7 @@ t_element *expand(t_element *current, t_env **envlist)
 	head = *envlist;
 	while (current)
 	{
-		if (current->type == ENV)
+		if (current->type == ENV && ft_strlen(current->line) > 1)
 		{
 			tmp = head;
 			expand_helper(current, envlist, &new);
@@ -232,6 +232,5 @@ t_element *lexing(char *line)
 	element = NULL;
 	while (line[i])
 		i = tokenize(line, &element, i, &state);
-	printf("before expand\n");
 	return (element);
 }
