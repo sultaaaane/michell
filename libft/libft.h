@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 16:06:19 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/07/05 16:57:49 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/06 17:22:27 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ char				*ft_strndup(const char *s, int n);
 int					ft_is_space(char c);
 int					ft_strcmp(const char *s1, const char *s2);
 char				**ft_strdup_2d(char **s);
+void				*ft_realloc(void *ptr, size_t size);
+void				**ft_realloc2d(void **ptr, size_t size);
+
+
 typedef struct s_list
 {
 	void			*content;

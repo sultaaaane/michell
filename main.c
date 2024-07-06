@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:49:36 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/07/06 14:49:02 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/06 22:20:22 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int main(int ac, char **av, char **envp)
 	t_all all;
 	t_element *tmp;
 	t_env *envlist;
+	t_parse *parse;
 
 	(void)ac;
 	(void)av;
@@ -58,28 +59,20 @@ int main(int ac, char **av, char **envp)
 	line = NULL;
 	signal(SIGQUIT, SIG_IGN);
 	envlist = build_env_list(envp);
+	parse = NULL;
 	while (69)
 	{
 		signal(SIGINT, sig_handler);
 		if (read_line(&line))
 			continue;
 		all.element = lexing(line);
-		// print_lst(all.element);
 		if (!check_syntax(all.element))
 		{
 			check(all.element);
-			// printf("before expand\n");
 			all.element = expand(all.element, &envlist);
-			// printf("before join inquotes\n");
-			// print_lst(all.element);
 			all.element = join_inquotes(all.element);
-			// printf("after join inquotes\n");
-			// print_lst(all.element);
 			tmp = without_quotes(all.element);
-			// printf("after without quotes\n");
-			// print_lst(tmp);
 			tmp = check_concate(&tmp);
-			// printf("after concate\n");
 			print_lst(tmp);
 			printf("proceed to execution\n");
 		}
