@@ -8,7 +8,10 @@ SRC =	lexer/lexer.c \
 		parsing/parse.c \
 		parsing/env.c \
 		parsing/ft_strjoin_concate.c \
+		parsing/command_to_exec.c \
+		parsing/parse_elem.c \
 
+		
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME) 

@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:49:36 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/07/01 17:08:50 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/06 14:49:02 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ void sig_handler(int signum)
 		rl_redisplay();
 	}
 }
-
-
-
 
 int main(int ac, char **av, char **envp)
 {

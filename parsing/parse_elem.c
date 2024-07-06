@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:09:30 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/08 16:12:44 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/05 16:59:48 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ void print_parse(t_parse *lst)
 		i = 0;
 		while (tmp->full_command[i])
 		{
-			printf("command %s\n",tmp->full_command[i]);
-			printf("fd_in %d\n",tmp->fd_in);
-			printf("fd_out %d\n",tmp->fd_out);
+			printf("command[%d] %s\n",i,tmp->full_command[i]);
 			i++;
 		}
+		printf("fd_in %d\n",tmp->fd_in);
+		printf("fd_out %d\n",tmp->fd_out);
 		tmp = tmp->next;
 	}
 }

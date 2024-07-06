@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:49:02 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/30 19:41:52 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/05 16:55:04 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,8 @@ typedef struct s_element
 
 typedef struct s_parse
 {
-	int *fd_in;
-	int *fd_out;
-	char *cmd;
+	int fd_in;
+	int fd_out;
 	char **full_command;
 	struct s_parse *next;
 	struct s_parse *prev;
@@ -125,7 +124,13 @@ t_element *expand(t_element *current, t_env **envlist);
 void	check(t_element *current);
 t_element *join_inquotes(t_element *element);
 char	*ft_strjoin_concate(char *s1, char *s2);
-
+char **join_command(t_element **element);
+t_parse *command_to_exec(t_element *element);
+int count_command(t_element *element);
+void print_parse(t_parse *lst);
+void	free_parse(t_parse *lst);
+t_parse *add_parse(t_parse **lst, t_parse *parse);
+t_parse *new_parse(char **command,int fd_in, int fd_out);
 
 
 
