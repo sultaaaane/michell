@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:08:54 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/07/09 13:11:42 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:19:17 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_element	*check_concate(t_element **element)
 	{
 		if(curr && curr->type != WHITESPACE && curr->type != PIPE && curr->type != REDIR_IN 
 			&& curr->type != REDIR_OUT && curr->type != APPEND
-			&& curr->type != HERE_DOC && count_nodes(curr) > 1)
+			&& curr->type != HERE_DOC && curr->type != ENV && count_nodes(curr) > 1)
 		{
 			// printf("CONCAT\n");
 			concated = concatinate(&curr);
