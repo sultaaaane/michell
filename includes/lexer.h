@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 09:49:02 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/07/06 15:25:52 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:45:35 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef enum e_type
 	NEW_LINE,
 	EX_STATUS,
 	CONCATE,
+	END_OF_FILE,
 } t_type;
 
 typedef enum e_state
@@ -131,8 +132,8 @@ t_parse *new_parse(char **command,int fd_in, int fd_out);
 t_parse *process_elements(t_element *elements);
 void handle_redirection(t_element *elem, t_element **next, int *fd_in, int *fd_out);
 int is_redirection(t_type type);
-
-
+void end_of_file(t_element **element);
+void ft_free_env(t_env *env);
 
 
 #endif

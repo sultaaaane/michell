@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:08:54 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/07/01 16:10:33 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:11:42 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,31 @@ t_element	*check_concate(t_element **element)
 			curr = curr->next;
 		}
 	}
+	free_lst(*element);
 	return (new);
+}
+
+void end_of_file(t_element **element)
+{
+	t_element *curr = *element;
+	int i = 0;
+	
+	while (curr && curr->next && i != 1)
+	{
+		if (curr->type == HERE_DOC)
+		{
+			while (curr && curr->type != WHITESPACE && curr->type != PIPE && curr->type != REDIR_IN)
+			{
+				if (curr->next && (curr->next->type == WORD || curr->next->type == ENV))
+				{
+					i = 1;
+					curr->next->type = END_OF_FILE;
+					break;
+				}
+				curr = curr->next;
+			}
+		}
+		else
+			curr = curr->next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 01:18:29 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/27 16:07:11 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:07:39 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_env *build_env_list(char **envp)
         if (!key_value || !key_value[0] || !key_value[1])
             return (ft_free2d(key_value),NULL);
         t_env *node = create_env_node(key_value[0], key_value[1]);
-        free(key_value);
+        ft_free2d(key_value);
         if (!node)
             return (ft_free2d(key_value),NULL);
         if (!head)
@@ -45,5 +45,19 @@ t_env *build_env_list(char **envp)
         tail = node;
         i++;
     }
+    // ft_free2d(key_value);
     return (head);
+}
+
+void ft_free_env(t_env *env)
+{
+    t_env *tmp;
+    while (env)
+    {
+        tmp = env;
+        env = env->next;
+        free(tmp->key);
+        free(tmp->value);
+        free(tmp);
+    }
 }
