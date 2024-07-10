@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:49:36 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/07/09 18:16:20 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:25:29 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@
 #include <fcntl.h>
 #define HEREDOC_TEMP "/tmp/heredoc_temp"
 
-char *handle_heredoc(char *delimiter)
+char *handle_heredoc(char *delimiter,t_element **heredoc, t_env **envlist,int flag)
 {
     char *line = NULL;
     char *content = ft_strdup("");
@@ -145,6 +145,9 @@ char *handle_heredoc(char *delimiter)
         line = readline("> ");
         if (!line || ft_strcmp(line, delimiter) == 0)
         {
+            *heredoc = lexing(content);
+            if (flag)
+                *heredoc = expand(*heredoc, envlist);
             free(line);
             break;
         }
@@ -187,6 +190,16 @@ void sig_handler(int signum)
     }
 }
 
+void write_element_intofile(t_element *element, int fd)
+{
+    while (element)
+    {
+        write(fd, element->line, ft_strlen(element->line));
+        // write(fd, "\n", 1);
+        element = element->next;
+    }
+}
+
 int main(int ac, char **av, char **envp)
 {
     char *line;
@@ -194,6 +207,7 @@ int main(int ac, char **av, char **envp)
     t_element *tmp;
     t_env *envlist;
     t_parse *parse;
+    int flag = 1;
 
     (void)ac;
     (void)av;
@@ -217,19 +231,25 @@ int main(int ac, char **av, char **envp)
             end_of_file(&all.element);
             
             t_element *current = all.element;
+            t_element *tmp = NULL;
             while (current)
             {
                 if (current->type == HERE_DOC && current->next)
                 {
+                    
 					current = current->next;
 					current = skip_spaces(current, 1);
+                    if (current->state == IN_SQUOTE || current->state == IN_DQUOTE)
+                        flag = 0;
+                    
 					printf("current->line: %s\n", current->line);
-                    char *heredoc_content = handle_heredoc(current->line);
+                    char *heredoc_content = handle_heredoc(current->line, &tmp, &envlist, flag);
                     int fd = open(HEREDOC_TEMP, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                     if (fd != -1)
                     {
-                        write(fd, heredoc_content, ft_strlen(heredoc_content));
+                        write_element_intofile(tmp, fd);
                         close(fd);
+                        fd = open(HEREDOC_TEMP, O_RDONLY);
                     }
                     free(heredoc_content);
                 }
