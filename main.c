@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:49:36 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/07/10 12:25:29 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:17:42 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,17 @@ int main(int ac, char **av, char **envp)
         {
             check(all.element);
             end_of_file(&all.element);
+            all.element = expand(all.element, &envlist);
+            printf("expand\n");
+            print_lst(all.element);
+            all.element = join_inquotes(all.element);
+            printf("join_inquotes\n");
+            print_lst(all.element);
+            tmp = without_quotes(all.element);
+            printf("without_quotes\n");
+            print_lst(tmp);
+            tmp = check_concate(&tmp);
+            printf("check_concate\n");
             
             t_element *current = all.element;
             t_element *tmp = NULL;
@@ -256,17 +267,6 @@ int main(int ac, char **av, char **envp)
                 current = current->next;
             }
             free_lst(current);
-            all.element = expand(all.element, &envlist);
-            printf("expand\n");
-            print_lst(all.element);
-            all.element = join_inquotes(all.element);
-            printf("join_inquotes\n");
-            print_lst(all.element);
-            tmp = without_quotes(all.element);
-            printf("without_quotes\n");
-            print_lst(tmp);
-            tmp = check_concate(&tmp);
-            printf("check_concate\n");
             print_lst(tmp);
             printf("proceed to execution\n");
         }
