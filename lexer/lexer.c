@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:39:01 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/07/08 15:40:17 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/10 22:13:09 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int get_env(char *line, t_element **element, enum e_state state)
 		add_element(element, new_element(line, ++i, type2, state));
 	else
 	{
-		while (line[i] && line[i] != ' ' && (ft_isalnum(line[i]) || line[i] == '_'))
+		while (line[i] && line[i] != ' ' && ( ft_keyboardup(line[i]) || ft_isalnum(line[i]) || line[i] == '_'))
 			i++;
 		add_element(element, new_element(line, i, type1, state));
 	}
@@ -218,6 +218,7 @@ t_element *expand(t_element *current, t_env **envlist)
 			add_element(&new, new_element(current->line, ft_strlen(current->line), current->type, current->state));
 		current = current->next;
 	}
+	free_lst(current);
 	return (new);
 }
 

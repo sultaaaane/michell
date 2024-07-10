@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:49:36 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/07/10 14:42:13 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/10 22:11:53 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,30 @@ void write_element_intofile(t_element *element, int fd)
     }
 }
 
+void handle_env(t_element **current)
+{
+    t_element *tmp = *current;
+    char *line = NULL;
+
+    while (tmp)
+    {
+        if (tmp->type == ENV)
+        {
+            int i = 1;
+            if (ft_keyboardup(tmp->line[i]) || ft_isdigit(tmp->line[i]))
+                i++;
+            else
+                return;
+            line = ft_strjoin(line, &tmp->line[i]);
+            i++;
+            free(tmp->line);
+            tmp->line = ft_strdup(line);
+            free(line);
+        }
+        tmp = tmp->next;
+    }
+}
+
 int main(int ac, char **av, char **envp)
 {
     char *line;
@@ -108,6 +132,7 @@ int main(int ac, char **av, char **envp)
         {
             check(all.element);
             end_of_file(&all.element);
+            handle_env(&all.element);
             all.element = expand(all.element, &envlist);
             printf("expand\n");
             print_lst(all.element);
