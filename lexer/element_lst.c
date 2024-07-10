@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:08:50 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/06/30 19:43:21 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:50:19 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ void	free_lst(t_element *lst)
 {
 	t_element	*tmp;
 
-	while (lst)
+	tmp = NULL;
+	while (lst && lst->next)
 	{
 		tmp = lst->next;
 		free(lst->line);

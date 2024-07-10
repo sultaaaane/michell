@@ -6,7 +6,7 @@
 /*   By: mbentahi <mbentahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 13:49:36 by mbentahi          #+#    #+#             */
-/*   Updated: 2024/07/10 14:39:56 by mbentahi         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:42:13 by mbentahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int main(int ac, char **av, char **envp)
             printf("check_concate\n");
             
             t_element *current = all.element;
-            t_element *tmp = NULL;
+            t_element *tmp1 = NULL;
             while (current)
             {
                 if (current->type == HERE_DOC && current->next)
@@ -133,11 +133,11 @@ int main(int ac, char **av, char **envp)
                         flag = 0;
                     
 					printf("current->line: %s\n", current->line);
-                    char *heredoc_content = handle_heredoc(current->line, &tmp, &envlist, flag);
+                    char *heredoc_content = handle_heredoc(current->line, &tmp1, &envlist, flag);
                     int fd = open(HEREDOC_TEMP, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                     if (fd != -1)
                     {
-                        write_element_intofile(tmp, fd);
+                        write_element_intofile(tmp1, fd);
                         close(fd);
                         fd = open(HEREDOC_TEMP, O_RDONLY);
                     }
@@ -146,6 +146,7 @@ int main(int ac, char **av, char **envp)
                 current = current->next;
             }
             free_lst(current);
+            free_lst(tmp1);
             print_lst(tmp);
             printf("proceed to execution\n");
         }
